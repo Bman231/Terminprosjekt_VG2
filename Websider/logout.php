@@ -1,6 +1,6 @@
 <?php
 session_start();
 session_destroy();
-// Redirect to the login page:
+// Sletter session, sender brukeren til innloggingssiden
 header('Location: index.html');
 ?>
