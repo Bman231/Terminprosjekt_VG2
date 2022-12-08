@@ -1,7 +1,7 @@
 <?php
-// We need to use sessions, so you should always start sessions using the below code.
+// Ved å bruke session forhindrer man tilgang til denne siden hvis man ikke er logget inn
 session_start();
-// If the user is not logged in redirect to the login page...
+// Sender brukeren til innloggingssiden (index.html)
 if (!isset($_SESSION['loggedin'])) {
 	header('Location: index.html');
 	exit;
@@ -20,13 +20,16 @@ if (!isset($_SESSION['loggedin'])) {
 		<nav class="navtop">
 			<div>
 				<h1>Villebok</h1>
-				<a href="profile.php"><i class="fas fa-user-circle"></i>Profile</a>
-				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logout</a>
+				<a href="profile.php"><i class="fas fa-user-circle"></i>Profil</a>
+				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logg ut</a>
 			</div>
 		</nav>
 		<div class="content">
 			<h2>Home</h2>
-			<p>Welcome back, <?=$_SESSION['name']?>!</p>
+			<p>Godt å se deg, <b><?=$_SESSION['name']?></b>!</p>
+		</div>
+		<div class="content">
+			<p>Her kommer ny chatfunksjon! Nettsiden er fortsatt under oppbygging. Forvent noe bra fremover!</p>
 		</div>
 
 	</body>
