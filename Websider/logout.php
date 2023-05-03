@@ -1,6 +1,10 @@
 <?php
-session_start();
+// Sjekker om brukeren er innlogget, ellers blokkerer tilgang
+if (!isset($_SESSION['loggedin'])) {
+	header('Location: index.html');
+	exit;
+}
+// Sletter session, logger ut og sender brukeren til innloggingssiden
 session_destroy();
-// Sletter session, sender brukeren til innloggingssiden
 header('Location: index.html');
 ?>
