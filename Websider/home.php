@@ -1,5 +1,5 @@
 <?php
-// Ved å bruke session forhindrer man tilgang til denne siden hvis man ikke er logget inn
+// Sjekker om brukeren er innlogget, ellers blokkerer tilgang
 session_start();
 // Sender brukeren til innloggingssiden (index.html)
 if (!isset($_SESSION['loggedin'])) {
@@ -20,16 +20,17 @@ if (!isset($_SESSION['loggedin'])) {
 		<nav class="navtop">
 			<div>
 				<h1>Villebok</h1>
-				<a href="profile.php"><i class="fas fa-user-circle"></i>Profil</a>
+				<a href="profil.php"><i class="fas fa-user-circle"></i>Profil</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logg ut</a>
 			</div>
 		</nav>
 		<div class="content">
 			<h2>Home</h2>
+			<!--Henter ut brukernavn lagret i session-->
 			<p>Godt å se deg, <b><?=$_SESSION['name']?></b>!</p>
 		</div>
 		<div class="content">
-			<p>Her kommer ny chatfunksjon! Nettsiden er fortsatt under oppbygging. Forvent noe bra fremover!</p>
+			
 		</div>
 
 	</body>
