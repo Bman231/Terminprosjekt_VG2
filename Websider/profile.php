@@ -1,7 +1,7 @@
 <?php
-// Ved å bruke session forhindrer man tilgang til denne siden hvis man ikke er logget inn
+// Sjekker om brukeren er innlogget, ellers blokkerer tilgang
 session_start();
-// Om ikke innlogget sender brukeren til innloggingssiden (index.html)
+// Sender brukeren til innloggingssiden (index.html)
 if (!isset($_SESSION['loggedin'])) {
 	header('Location: index.html');
 	exit;
@@ -11,6 +11,7 @@ $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = '';
 $DATABASE_NAME = 'brukere';
+// Koden kobler php-filen til datbasen med detaljene ovenfor
 $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
 if (mysqli_connect_errno()) {
 	exit('Failed to connect to MySQL: ' . mysqli_connect_error());
@@ -36,18 +37,19 @@ $stmt->close();
 	<body class="loggedin">
 		<nav class="navtop">
 			<div>
-				<h1>Villebok</h1>
-				<a href="profile.php"><i class="fas fa-user-circle"></i>Profil</a>
+				<h1 onclick="location.href='home.php'">Villebok</h1>
+				<a href="profil.php"><i class="fas fa-user-circle"></i>Profil</a>
 				<a href="logout.php"><i class="fas fa-sign-out-alt"></i>Logg ut</a>
 			</div>
 		</nav>
 		<div class="content">
-			<h2>Profilside</h2>
+			<h2>Din profil</h2>
 			<div>
 				<p>Dine brukerdetaljer er listet nedenfor:</p>
 				<table>
 					<tr>
 						<td>Brukernavn:</td>
+						<!--Henter ut brukernavn lagret i session-->
 						<td><?=$_SESSION['name']?></td>
 					</tr>
 					<tr>
