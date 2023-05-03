@@ -1,17 +1,18 @@
 <?php
 
-// Deler av koden er hentet fra https://codeshack.io/secure-login-system-php-mysql/
+// Credits for deler av koden til https://codeshack.io/secure-login-system-php-mysql/
 
 session_start();
-// Connection detaljer
+// Definerer connection detaljer
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
 $DATABASE_PASS = '';
 $DATABASE_NAME = 'brukere';
-// Kobler til databasen med detaljene ovenfor
+
+// Koden kobler php-filen til datbasen med detaljene ovenfor
 $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
 if ( mysqli_connect_errno() ) {
-	// If there is an error with the connection, stop the script and display the error.
+	// Feilmelding hvis tilkobling mislyktes.
 	exit('Failed to connect to MySQL: ' . mysqli_connect_error());
 }
 
@@ -21,28 +22,35 @@ if ( !isset($_POST['username'], $_POST['password']) ) {
 	exit('Please fill both the username and password fields!');
 }
 
-// Forbereder SQL-injection. Prepare forhinder at dataene blir sendt til databasen hvis det er noe feil
+// Forbereder SQL-injection. Prepare forhindrer at koden kjører hvis noe skulle gå feil
+// Henter data fra databasen basert på brukernavnet skrevet i innloggingskjemaet
 if ($stmt = $con->prepare('SELECT id, password FROM accounts WHERE username = ?')) {
-	// Setter "s" bak brukernavnet for at den skal regnes som "string"
+	// Setter "s" i brukernavnet slik at den blir regnet som en string
 	$stmt->bind_param('s', $_POST['username']);
 	$stmt->execute();
-	// Lagrer resultatet for å kryssjekke at brukeren finnes.
+	// Lagrer resultatet for å kryssjekke at brukeren finnes senere.
 	$stmt->store_result();
 
+    // Sjekker om brukeren finnes
     if ($stmt->num_rows > 0) {
         $stmt->bind_result($id, $password);
         $stmt->fetch();
-        // Brukeren finnes, gjenstår å verifisere passordet
-        // Passordet hashes ikke, det lagres i tekst
+
+        // Brukeren finnes gjenstår å verifisere passordet
+        // Verifiserer passordet. Sjekker om passordet som ble submittet er det samme som i databasen
         if ($_POST['password'] === $password) {
             // Passord er verifisert. Brukeren har logget inn
 
-        // Oppretter session. Virker som cookies, men husker dataene på serveren frem til brukeren logger ut
+        // Oppretter session. Alternativet til cookies, men husker dataene på serveren frem til brukeren logger ut
+        // $_SESSION er en global variabel som har tilagng til alle php-filene i mappa
             session_regenerate_id();
             $_SESSION['loggedin'] = TRUE;
             $_SESSION['name'] = $_POST['username'];
             $_SESSION['id'] = $id;
+            // Sender til Hjemmesiden
             header('Location: home.php');
+
+            // Brukernavn og/eller passord matcher ikke det som står i databasen
         } else {
             // Feil passord
             echo 'Feil brukernavn og/eller passord! Trykk tilbake for å prøve igjen';
