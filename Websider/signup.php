@@ -1,10 +1,11 @@
 <?php
 session_start();
 // Connection detaljer til databasen
-$DATABASE_HOST = 'localhost';
-$DATABASE_USER = 'root';
-$DATABASE_PASS = '';
-$DATABASE_NAME = 'brukere';
+$DATABASE_HOST = '10.0.0.50';
+$DATABASE_USER = 'admin';
+$DATABASE_PASS = 'Besnik500Kuben';
+$DATABASE_NAME = 'user_data';
+
 // Koden kobler php-filen til datbasen
 $con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
 if ( mysqli_connect_errno() ) {
